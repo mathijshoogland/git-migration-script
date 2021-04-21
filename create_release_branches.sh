@@ -1,19 +1,19 @@
 #! /bin/bash
 
-#for tag_name in $(git tag)
-#do
-    #git checkout tags/$tag_name implantacion/$tag_name
-    #echo $tag_name
+# Bash setting to enable mv !(.git)
+shopt -s extglob
+# Bash setting to also include dotfiles when copying
+shopt -s dotglob nullglob
 
-    git checkout -b implentacion/1.0.7 1.0.7
+for tag_name in $(git tag)
+do
+    #tag_name=2.2.2
+    git checkout -b implantacion/$tag_name $tag_name
     git clean -f -d
     mkdir -p code
-    shopt -s extglob
-    shopt -s dotglob nullglob
+    # Move everything except .git folder to code folder
     mv !(.git) code
-    #mv .* code # exclude our .gitfolder
     git add .
     git commit -m "init: new folder structure."
-#done
-
-# Verify we dont' have dstore stuff
+    git push origin implantacion/$tag_name
+done
